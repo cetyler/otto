@@ -158,6 +158,9 @@ fi
 
 source "$CONFIG"
 
+#echo "$TIMEOFFSET"
+#exit 0
+
 # Check whether the path to the source directory is specified
 if [ -z "$src" ]; then
     usage
@@ -313,7 +316,7 @@ if [ ! -z "$gpx" ]; then
     if [ "$fcount" -eq "1" ]; then
         dialog --infobox "Geocorrelating..." 3 21
         track=$(ls "$gpx")
-        exiftool -q -q -m -overwrite_original -geotag "$track" -geosync=180 "$ENDPOINT" >>"/tmp/otto.log" 2>&1
+        exiftool -q -q -m -overwrite_original -geotag "$track" -geosync=180 '$TIMEOFFSET' "$ENDPOINT" >>"/tmp/otto.log" 2>&1
     elif [ "$fcount" -gt "1" ]; then
         ff=""
         for f in *.gpx; do
@@ -321,7 +324,7 @@ if [ ! -z "$gpx" ]; then
         done
         gpsbabel -i gpx $ff -o gpx -F "/tmp/merged-track.gpx"
         track="/tmp/merged-track.gpx"
-        exiftool -q -q -m -overwrite_original -geotag "$track" -geosync=180 "$ENDPOINT" >>"/tmp/otto.log" 2>&1
+        exiftool -q -q -m -overwrite_original -geotag "$track" -geosync=180 '$TIMEOFFSET' "$ENDPOINT" >>"/tmp/otto.log" 2>&1
     else
         dialog --erase-on-exit --backtitle "ERROR" --msgbox "Something went wrong. Geotagging skipped." 6 25
     fi
@@ -329,7 +332,7 @@ fi
 
 dialog --infobox "Organizing files..." 3 23
 cd "$ENDPOINT"
-exiftool -q -q -m '-Directory<CreateDate' -d ./%Y-%m-%d . >>"/tmp/otto.log" 2>&1
+exiftool -q -q -m '-Directory<CreateDate' -d ./%Y-%m . >>"/tmp/otto.log" 2>&1
 cd
 clear
 notify

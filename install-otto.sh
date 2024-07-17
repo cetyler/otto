@@ -34,10 +34,12 @@ sudo apt upgrade -y
 cd
 sudo apt update
 sudo apt upgrade
-sudo apt install git dialog bc jq curl exiftool exiv2 rsync wget gpsbabel exfat-fuse exfat-utils
-git clone https://github.com/dmpop/otto.git
+sudo apt install git dialog bc jq curl exiftool exiv2 rsync wget gpsbabel 
+# These are no longer required in Ubuntu 24.04 exfat-fuse exfat-utils
+cd ~/programming
+git clone https://github.com/cetyler/otto.git
 chmod +x otto/*.sh
 mkdir -p $HOME/storage
-mkdir -p $HOME/bin
-echo "PATH=$HOME/bin:$PATH" >> ~/.bashrc
-ln -s $HOME/otto/otto.sh $HOME/bin/otto
+mkdir -p $HOME/.bin
+echo "PATH=$HOME/.bin:$PATH" >> ~/.bashrc
+ln -s $HOME/programming/otto/otto.sh $HOME/.bin/otto
